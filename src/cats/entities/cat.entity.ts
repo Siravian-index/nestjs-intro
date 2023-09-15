@@ -1,1 +1,6 @@
-export class Cat {}
+export class Cat {
+    name: string
+    age: number
+    breed: string
+    id: number
+}

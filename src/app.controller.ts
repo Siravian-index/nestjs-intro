@@ -1,9 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Get()
   getHello(): string {
@@ -11,7 +11,7 @@ export class AppController {
   }
 
   @Get('/ping')
-  getPong(): string {
-    return this.appService.getPong();
+  getPong(@Query("points") points: string): string {
+    return this.appService.getPong(points);
   }
 }

@@ -6,7 +6,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  getPong(): string {
-    return 'pong!';
+  getPong(points: string): string {
+    return `pong! +${points}`;
   }
 }

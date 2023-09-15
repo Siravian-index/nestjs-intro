@@ -18,5 +18,9 @@ describe('AppController', () => {
     it('should return "Hello World!"', () => {
       expect(appController.getHello()).toBe('Hello World!');
     });
+
+    it("should return pong plus the score", () => {
+      expect(appController.getPong("100")).toBe("pong! +100")
+    })
   });
 });

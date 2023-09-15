@@ -4,8 +4,8 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Injectable()
 export class CatsService {
-  create(createCatDto: CreateCatDto) {
-    return createCatDto;
+  create(createCatDto: CreateCatDto): string {
+    return `Cat ${createCatDto.name} added to ${createCatDto.breed} collection`;
   }
 
   findAll() {

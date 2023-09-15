@@ -14,7 +14,7 @@ describe('CatsController', () => {
     controller = module.get<CatsController>(CatsController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should return cat obj', () => {
+    expect(controller.create({name: "tommy", age: 4, breed: "Persian"})).toBe("Cat tommy added to Persian collection");
   });
 });

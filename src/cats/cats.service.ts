@@ -19,7 +19,7 @@ export class CatsService {
 
   findOne(id: number) {
     const found = this.cats.find((cat) => cat.id === id)
-    return found ?? {}
+    return found
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {

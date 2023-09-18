@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { PingService } from 'src/ping/ping.service';
 
 @Controller('cats')
 export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService, private readonly pingService: PingService) {}
 
   @Post()
   create(@Body() createCatDto: CreateCatDto) {
@@ -19,7 +20,9 @@ export class CatsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.catsService.findOne(+id);
+    const pong = this.pingService.pong(+id)
+    const found = this.catsService.findOne(+id);
+    return found ?? pong
   }
 
   @Patch(':id')

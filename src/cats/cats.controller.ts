@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -17,10 +17,14 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    const found = this.catsService.findOne(+id);
-    return found
+  @Get(":name")
+  findOne(@Param("name") name: string) {
+    try {
+      return this.catsService.findByName(name);
+    } catch (error) {
+      throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
+      
+    }
   }
 
   @Patch(':id')

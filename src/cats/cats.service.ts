@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Query } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
@@ -7,6 +7,7 @@ import { Cat } from './entities/cat.entity';
 export class CatsService {
   private cats: Cat[] = []
   create(createCatDto: CreateCatDto): string {
+    this.cats.push(createCatDto)
     return `Cat ${createCatDto.name} added to ${createCatDto.breed} collection`;
   }
 
@@ -14,8 +15,12 @@ export class CatsService {
     return this.cats;
   }
 
-  findOne(id: number) {
-    return {}
+  findByName(name: string) {
+    const found = this.cats.find((cat) => cat.name === name)
+    if (!found) {
+      throw new Error("Cat not found");
+    }
+    return found
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {

@@ -5,11 +5,8 @@ import { Cat } from './entities/cat.entity';
 
 @Injectable()
 export class CatsService {
-  private id = 1
   private cats: Cat[] = []
   create(createCatDto: CreateCatDto): string {
-    this.cats.push({ ...createCatDto, id: this.id })
-    this.id++
     return `Cat ${createCatDto.name} added to ${createCatDto.breed} collection`;
   }
 
@@ -18,8 +15,7 @@ export class CatsService {
   }
 
   findOne(id: number) {
-    const found = this.cats.find((cat) => cat.id === id)
-    return found
+    return {}
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {

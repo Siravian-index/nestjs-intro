@@ -1,27 +1,37 @@
-import { Injectable, Query } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
-
+import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class CatsService {
-  private cats: Cat[] = []
-  create(createCatDto: CreateCatDto): string {
-    this.cats.push(createCatDto)
-    return `Cat ${createCatDto.name} added to ${createCatDto.breed} collection`;
+  private cats: Record<string, Cat[]> = {}
+
+  create(createCatDto: CreateCatDto) {
+    const hasCollection = this.cats.hasOwnProperty(createCatDto.breed)
+    if (!hasCollection) {
+      this.cats[createCatDto.breed] = []
+    }
+    const cat = {...createCatDto, id: uuidv4()}
+    this.cats[createCatDto.breed].push(cat)
+    return {
+      message: `Cat ${createCatDto.name} added to ${createCatDto.breed} collection`,
+      data: cat
+    };
   }
 
   findAll() {
-    return this.cats;
+    return this.cats
   }
 
-  findByName(name: string) {
-    const found = this.cats.find((cat) => cat.name === name)
-    if (!found) {
-      throw new Error("Cat not found");
+  findByBreed(breed: string) {
+    const collection = this.cats.hasOwnProperty(breed)
+    if (!collection) {
+      throw new Error(`${breed} not found`);
     }
-    return found
+    return this.cats[breed]
   }
+
 
   update(id: number, updateCatDto: UpdateCatDto) {
     return `This action updates a #${id} cat`;

@@ -17,13 +17,12 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
-  @Get(":name")
-  findOne(@Param("name") name: string) {
+  @Get(":breed")
+  findByBreed(@Param("breed") breed: string) {
     try {
-      return this.catsService.findByName(name);
+      return this.catsService.findByBreed(breed);
     } catch (error) {
-      throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
-      
+      throw new HttpException("Breed Not Found", HttpStatus.NOT_FOUND)
     }
   }
 

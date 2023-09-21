@@ -5,31 +5,42 @@ import { Cat } from './entities/cat.entity';
 import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class CatsService {
-  private cats: Record<string, Cat[]> = {}
+  private cats: Cat[] = []
 
   create(createCatDto: CreateCatDto) {
-    const hasCollection = this.cats.hasOwnProperty(createCatDto.breed)
-    if (!hasCollection) {
-      this.cats[createCatDto.breed] = []
-    }
-    const cat = {...createCatDto, id: uuidv4()}
-    this.cats[createCatDto.breed].push(cat)
+    const cat = { ...createCatDto, id: uuidv4() }
+    this.cats.push(cat)
     return {
-      message: `Cat ${createCatDto.name} added to ${createCatDto.breed} collection`,
       data: cat
     };
   }
 
   findAll() {
-    return this.cats
+    return {
+      data: this.cats
+    }
+  }
+
+  findByUUID(uuid: string) {
+    const found = this.cats.find((cat) => cat.id === uuid)
+    if (!found) {
+      throw new Error(`${uuid} not found`);
+    }
+    return {
+      data: found
+    }
   }
 
   findByBreed(breed: string) {
-    const collection = this.cats.hasOwnProperty(breed)
-    if (!collection) {
+    const collection = this.cats.filter((cat) => cat.breed.toLowerCase() === breed.toLowerCase())
+    if (!collection.length) {
       throw new Error(`${breed} not found`);
     }
-    return this.cats[breed]
+    return {
+      data: collection
+    }
+
+
   }
 
 

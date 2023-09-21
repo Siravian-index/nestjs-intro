@@ -17,8 +17,17 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
-  @Get(":breed")
-  findByBreed(@Param("breed") breed: string) {
+  @Get(":id")
+  findById(@Param("id") id: string) {
+    try {
+      return this.catsService.findByUUID(id)
+    } catch (error) {
+      throw new HttpException("Id Not Found", HttpStatus.NOT_FOUND)
+    }
+  }w
+
+  @Get("/breed")
+  findByBreed(@Query("breed") breed: string) {
     try {
       return this.catsService.findByBreed(breed);
     } catch (error) {

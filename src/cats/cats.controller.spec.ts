@@ -15,6 +15,8 @@ describe('CatsController', () => {
   });
 
   it('should return cat obj', () => {
-    expect(controller.create({name: "tommy", age: 4, breed: "Persian"})).toBe("Cat tommy added to Persian collection");
+    expect(controller.create({ name: 'tommy', age: 4, breed: 'Persian' })).toBe(
+      'Cat tommy added to Persian collection',
+    );
   });
 });

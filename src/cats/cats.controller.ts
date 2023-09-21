@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -17,21 +28,21 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
-  @Get("/:id")
-  findById(@Param("id") id: string) {
+  @Get('/:uuid')
+  findById(@Param('uuid', new ParseUUIDPipe({ version: '4' })) uuid: string) {
     try {
-      return this.catsService.findByUUID(id)
+      return this.catsService.findByUUID(uuid);
     } catch (error) {
-      throw new HttpException("Id Not Found", HttpStatus.NOT_FOUND)
+      throw new HttpException('Id Not Found', HttpStatus.NOT_FOUND);
     }
-  }w
+  }
 
-  @Get("/breed/:breed")
-  findAllByBreed(@Param("breed") breed: string) {
+  @Get('/breed/:breed')
+  findAllByBreed(@Param('breed') breed: string) {
     try {
       return this.catsService.findAllByBreed(breed);
     } catch (error) {
-      throw new HttpException("Breed Not Found", HttpStatus.NOT_FOUND)
+      throw new HttpException('Breed Not Found', HttpStatus.NOT_FOUND);
     }
   }
 

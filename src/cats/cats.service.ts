@@ -5,55 +5,57 @@ import { Cat } from './entities/cat.entity';
 import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class CatsService {
-  private cats: Cat[] = []
+  private cats: Cat[] = [];
 
   create(createCatDto: CreateCatDto) {
-    const cat = { ...createCatDto, id: uuidv4() }
-    this.cats.push(cat)
+    const cat = { ...createCatDto, id: uuidv4() };
+    this.cats.push(cat);
     return {
-      data: cat
+      data: cat,
     };
   }
 
   findAll() {
     return {
-      data: this.cats
-    }
+      data: this.cats,
+    };
   }
 
   findByUUID(uuid: string) {
-    const found = this.cats.find((cat) => cat.id === uuid)
+    const found = this.cats.find((cat) => cat.id === uuid);
     if (!found) {
       throw new Error(`${uuid} not found`);
     }
     return {
-      data: found
-    }
+      data: found,
+    };
   }
 
   findAllByBreed(breed: string) {
-    const collection = this.cats.filter((cat) => cat.breed.toLowerCase() === breed.toLowerCase())
+    const collection = this.cats.filter(
+      (cat) => cat.breed.toLowerCase() === breed.toLowerCase(),
+    );
     if (!collection.length) {
       throw new Error(`${breed} not found`);
     }
     return {
-      data: collection
-    }
-
-
+      data: collection,
+    };
   }
 
   update(id: string, updateCatDto: UpdateCatDto) {
-    this.cats = this.cats.map((cat) => cat.id === id ? { ...cat, ...updateCatDto } : cat)
+    this.cats = this.cats.map((cat) =>
+      cat.id === id ? { ...cat, ...updateCatDto } : cat,
+    );
     return {
-      data: this.cats
-    }
+      data: this.cats,
+    };
   }
 
   remove(id: string) {
-    this.cats = this.cats.filter((cat) => cat.id !== id)
+    this.cats = this.cats.filter((cat) => cat.id !== id);
     return {
-      data: this.cats
-    }
+      data: this.cats,
+    };
   }
 }

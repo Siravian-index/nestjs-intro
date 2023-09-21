@@ -1,6 +1,6 @@
 export class Cat {
-    name: string
-    age: number
-    breed: string
-    id: string
+  name: string;
+  age: number;
+  breed: string;
+  id: string;
 }

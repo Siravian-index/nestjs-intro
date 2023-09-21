@@ -3,7 +3,7 @@ import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 
-@Controller('cats')
+@Controller('/cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
@@ -17,7 +17,7 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
-  @Get(":id")
+  @Get("/:id")
   findById(@Param("id") id: string) {
     try {
       return this.catsService.findByUUID(id)
@@ -26,10 +26,10 @@ export class CatsController {
     }
   }w
 
-  @Get("/breed")
-  findByBreed(@Query("breed") breed: string) {
+  @Get("/breed/:breed")
+  findAllByBreed(@Param("breed") breed: string) {
     try {
-      return this.catsService.findByBreed(breed);
+      return this.catsService.findAllByBreed(breed);
     } catch (error) {
       throw new HttpException("Breed Not Found", HttpStatus.NOT_FOUND)
     }
@@ -37,11 +37,11 @@ export class CatsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-    return this.catsService.update(+id, updateCatDto);
+    return this.catsService.update(id, updateCatDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.catsService.remove(+id);
+    return this.catsService.remove(id);
   }
 }

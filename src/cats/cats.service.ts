@@ -31,7 +31,7 @@ export class CatsService {
     }
   }
 
-  findByBreed(breed: string) {
+  findAllByBreed(breed: string) {
     const collection = this.cats.filter((cat) => cat.breed.toLowerCase() === breed.toLowerCase())
     if (!collection.length) {
       throw new Error(`${breed} not found`);
@@ -43,12 +43,17 @@ export class CatsService {
 
   }
 
-
-  update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+  update(id: string, updateCatDto: UpdateCatDto) {
+    this.cats = this.cats.map((cat) => cat.id === id ? { ...cat, ...updateCatDto } : cat)
+    return {
+      data: this.cats
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cat`;
+  remove(id: string) {
+    this.cats = this.cats.filter((cat) => cat.id !== id)
+    return {
+      data: this.cats
+    }
   }
 }

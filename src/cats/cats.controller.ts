@@ -9,6 +9,8 @@ import {
   HttpException,
   HttpStatus,
   ParseUUIDPipe,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -19,7 +21,8 @@ export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
-  create(@Body() createCatDto: CreateCatDto) {
+  @UsePipes(new ValidationPipe())
+  async create(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto);
   }
 

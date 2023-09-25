@@ -12,17 +12,21 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { RolesGuard } from 'src/common/auth/roles.guard';
 import { Roles } from 'src/common/auth/roles.decorator';
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
+import { TransformInterceptor } from 'src/common/interceptors/transform.interceptor';
 
 @Controller('/cats')
 @UseGuards(RolesGuard)
+@UseInterceptors(LoggingInterceptor, TransformInterceptor,)
 export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) { }
 
   @Post()
   @UsePipes(new ValidationPipe())
